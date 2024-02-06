@@ -26,11 +26,7 @@ const imagesGetter = () => {
 
         const img = document.createElement('img');
         img.src = imgPath;
-
-        // img.addEventListener('click', () => changeImg(1));
-        
-        // img.addEventListener('ArrowRight', () => changeImg(1))
-        // img.addEventListener('ArrowLeft', () => changeImg(0));
+        img.addEventListener('click', () => changeImg(1));
 
         images.push(img);
     }
@@ -41,7 +37,7 @@ const imagesGetter = () => {
     imgCreator(imgFile4);
 
     imageShownDiv[0].appendChild(images[currentIdx]);
-    images[currentIdx].focus();
+    
     document.addEventListener('keydown', (e) => {
         console.log(e.key);
 
