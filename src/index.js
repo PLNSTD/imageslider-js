@@ -9,35 +9,59 @@ const images = [];
 let currentIdx = 0;
 const imageShownDiv = document.getElementsByClassName('image-shown');
 
-const changeImg = (nextIdx) => {
-    imageShownDiv[0].innerHTML = '';
+const changeImg = (switchIdx) => {
+    let nextIdx = currentIdx + switchIdx;
 
-    if (currentIdx === 3 && nextIdx === 1) currentIdx = 0;
-    else if (currentIdx === 0 && nextIdx === -1) currentIdx = 3;
-    else currentIdx += nextIdx;
+    if (currentIdx === 3 && switchIdx === 1) nextIdx = 0;
+    else if (currentIdx === 0 && switchIdx === -1) nextIdx = 3;
 
-    imageShownDiv[0].appendChild(images[currentIdx]);
+    const previousIdx = currentIdx;
+    currentIdx = nextIdx;
+
+    if (switchIdx === 1) {
+        // Old Image Out
+        images[previousIdx].classList.add('out-to-left');
+        images[previousIdx].addEventListener('animationend', () => {
+            images[previousIdx].classList.remove('out-to-left');
+            // images[previousIdx].classList.add('non-visible-img');
+            images[previousIdx].removeEventListener('animationend', null, false);
+        })
+        
+        images[previousIdx].classList.remove('current-img');
+
+        // New Image In
+        // images[nextIdx].classList.remove('non-visible-img');
+        images[nextIdx].classList.add('in-from-right');
+        images[nextIdx].addEventListener('animationend', () => {
+            images[nextIdx].classList.remove('in-from-right');
+            images[nextIdx].removeEventListener('animationend', null, false);
+        })
+
+        images[nextIdx].classList.add('current-img');
+    } else if (switchIdx === -1) {
+        // Old Image Out
+        images[previousIdx].classList.add('out-to-right');
+        images[previousIdx].addEventListener('animationend', () => {
+            images[previousIdx].classList.remove('out-to-right');
+            // images[previousIdx].classList.add('non-visible-img');
+            images[previousIdx].removeEventListener('animationend', null, false);
+        })
+
+        images[previousIdx].classList.remove('current-img');
+        
+        // New Image In
+        // images[nextIdx].classList.remove('non-visible-img');
+        images[nextIdx].classList.add('in-from-left');
+        images[nextIdx].addEventListener('animationend', () => {
+            images[nextIdx].classList.remove('in-from-left');
+            images[nextIdx].removeEventListener('animationend', null, false);
+        })
+
+        images[nextIdx].classList.add('current-img');
+    }
 }
 
-const imagesGetter = () => {
-    // HARD CODED because JavaScript does not have access to FileSystems.
-
-    const imgCreator = (imgPath) => {
-
-        const img = document.createElement('img');
-        img.src = imgPath;
-        img.addEventListener('click', () => changeImg(1));
-
-        images.push(img);
-    }
-
-    imgCreator(imgFile1);
-    imgCreator(imgFile2);
-    imgCreator(imgFile3);
-    imgCreator(imgFile4);
-
-    imageShownDiv[0].appendChild(images[currentIdx]);
-    
+const eventsSetter = () => {
     document.addEventListener('keydown', (e) => {
         console.log(e.key);
 
@@ -60,7 +84,44 @@ const imagesGetter = () => {
             default:
                 break;
         }
-    })
+    });
+
+    const previousBtn = document.getElementById('previous-button');
+    const nextBtn = document.getElementById('next-button');
+
+    previousBtn.addEventListener('click', () => {
+        changeImg(-1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        changeImg(1);
+    });
+}
+
+const imagesGetter = () => {
+    // HARD CODED because JavaScript does not have access to FileSystems.
+    const imgCreator = (imgPath) => {
+        const img = document.createElement('img');
+        img.src = imgPath;
+        img.addEventListener('click', () => changeImg(1));
+        images.push(img);
+    }
+
+    imgCreator(imgFile1);
+    imgCreator(imgFile2);
+    imgCreator(imgFile3);
+    imgCreator(imgFile4);
+
+    imageShownDiv[0].appendChild(images[0]);
+    imageShownDiv[0].appendChild(images[1]);
+    imageShownDiv[0].appendChild(images[2]);
+    imageShownDiv[0].appendChild(images[3]);
+    eventsSetter();
+
+    images[0].classList.toggle('current-img');
+    // images[1].classList.toggle('non-visible-img');
+    // images[2].classList.toggle('non-visible-img');
+    // images[3].classList.toggle('non-visible-img');
 }
 
 window.addEventListener('load', imagesGetter);
