@@ -2,85 +2,59 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    border: 0.5px solid red;
+    /* border: 0.5px solid red; */
 }
 
 img {
-    width: 1200px;
-    height: 720px;
-    max-width: 1200px;
-    max-height: 720px;
-    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    transition-delay: 200ms;
 }
 
 .current-img {
-    position: relative;
-    display: block;
+    position: absolute;
+    opacity: 1;
+    z-index: 999;
+    transition-delay: 0ms;
 }
 
 #media-player {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    z-index: 2;
+    
 }
 
 .image-shown {
-    width: 1200px;
-    display: flex;
-    flex-shrink: 1 0 auto;
     overflow: hidden;
-    z-index: -1;
 }
 
-button {
+#previous-button {
+    position: absolute;
     height: 100%;
+    z-index: 10000;
+    left: 1rem;
+}
+
+#next-button {
+    position: absolute;
+    height: 100%;
+    z-index: 10000;
+    right: 1rem;
 }
 
 .in-from-right {
-    opacity: 1;
-    animation-name: move-in-from-right;
-    animation-duration: 1s;
-    animation-timing-function: ease-in;
 }
 
 .in-from-left {
-    opacity: 1;
-    animation-name: move-in-from-left;
-    animation-duration: 1s;
-    animation-timing-function: ease-in;
 }
 
 .out-to-right {
-    opacity: 1;
-    animation: move-out-to-right;
-    animation-duration: 1s; 
-    animation-timing-function: ease-in;
+    
 }
 
 .out-to-left {
-    opacity: 1;
-    animation: move-out-to-left;
-    animation-duration: 1s;
-    animation-timing-function: ease-in;
-}
-
-@keyframes move-in-from-right {
-    from{transform: translateX(1200px);}
-    to{transform: translateX(0px);}
-}
-
-@keyframes move-in-from-left {
-    from{transform: translateX(-1200px);}
-    to{transform: translateX(0px);}
-}
-
-@keyframes move-out-to-right {
-    from{transform: translateX(0px);}
-    to{transform: translateX(1200px);}
-}
-
-@keyframes move-out-to-left {
-    from{transform: translateX(0px);}
-    to{transform: translateX(-1200px);}
+    
 }

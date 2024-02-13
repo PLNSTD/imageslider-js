@@ -19,45 +19,36 @@ const changeImg = (switchIdx) => {
     currentIdx = nextIdx;
 
     if (switchIdx === 1) {
-        // Old Image Out
-        images[previousIdx].classList.add('out-to-left');
-        images[previousIdx].addEventListener('animationend', () => {
-            images[previousIdx].classList.remove('out-to-left');
-            // images[previousIdx].classList.add('non-visible-img');
-            images[previousIdx].removeEventListener('animationend', null, false);
-        })
-        
-        images[previousIdx].classList.remove('current-img');
-
         // New Image In
-        // images[nextIdx].classList.remove('non-visible-img');
         images[nextIdx].classList.add('in-from-right');
-        images[nextIdx].addEventListener('animationend', () => {
+        setTimeout(() => {
             images[nextIdx].classList.remove('in-from-right');
-            images[nextIdx].removeEventListener('animationend', null, false);
-        })
+        }, 1000)
 
         images[nextIdx].classList.add('current-img');
+        // Old Image Out
+        images[previousIdx].classList.add('out-to-left');
+        setTimeout(() => {
+            images[previousIdx].classList.remove('out-to-left');
+
+        }, 1000);
+        
+        images[previousIdx].classList.remove('current-img');
     } else if (switchIdx === -1) {
         // Old Image Out
         images[previousIdx].classList.add('out-to-right');
-        images[previousIdx].addEventListener('animationend', () => {
+        setTimeout( () => {
             images[previousIdx].classList.remove('out-to-right');
-            // images[previousIdx].classList.add('non-visible-img');
-            images[previousIdx].removeEventListener('animationend', null, false);
-        })
-
-        images[previousIdx].classList.remove('current-img');
+        }, 1000)
         
         // New Image In
-        // images[nextIdx].classList.remove('non-visible-img');
         images[nextIdx].classList.add('in-from-left');
-        images[nextIdx].addEventListener('animationend', () => {
-            images[nextIdx].classList.remove('in-from-left');
-            images[nextIdx].removeEventListener('animationend', null, false);
-        })
-
         images[nextIdx].classList.add('current-img');
+        setTimeout(() => {
+            images[nextIdx].classList.remove('in-from-left');
+        }, 1000)
+
+        images[previousIdx].classList.remove('current-img');
     }
 }
 
@@ -119,9 +110,6 @@ const imagesGetter = () => {
     eventsSetter();
 
     images[0].classList.toggle('current-img');
-    // images[1].classList.toggle('non-visible-img');
-    // images[2].classList.toggle('non-visible-img');
-    // images[3].classList.toggle('non-visible-img');
 }
 
 window.addEventListener('load', imagesGetter);
